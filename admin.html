@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MOCO ACADEMY</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-page">
+    <header class="admin-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="/logo.png" alt="MOCO ACADEMY" style="height: 40px; margin-right: 10px;" onerror="this.style.display='none';">
+                <i class="fas fa-shield-alt" style="display: none;"></i>
+                <span>MOCO ACADEMY Admin</span>
+            </div>
+            <div class="header-actions">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-content">
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-panel="users" onclick="showPanel('users')">
+                <i class="fas fa-users"></i> Users
+            </button>
+            <button class="admin-tab" data-panel="courses" onclick="showPanel('courses')">
+                <i class="fas fa-book"></i> Course Launcher
+            </button>
+            <button class="admin-tab" data-panel="settings" onclick="showPanel('settings')">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+            <button class="admin-tab" data-panel="group-chat" onclick="showPanel('group-chat')">
+                <i class="fas fa-comments"></i> Group Chat
+            </button>
+            <button class="admin-tab" data-panel="private-chats" onclick="showPanel('private-chats')">
+                <i class="fas fa-envelope"></i> Private Chats
+            </button>
+        </div>
+
+        <!-- Users Management Panel -->
+        <div id="users" class="admin-panel active">
+            <div class="panel-header">
+                <h3><i class="fas fa-users"></i> User Management</h3>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="newUsername" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="newPassword" placeholder="Password">
+                </div>
+            </div>
+            <button class="action-btn primary" onclick="createUser()">
+                <i class="fas fa-user-plus"></i> Create Student
+            </button>
+            
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Status</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Course Launcher Panel -->
+        <div id="courses" class="admin-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-book"></i> Course Launcher</h3>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Course Title</label>
+                <input type="text" id="courseTitle" placeholder="Enter course title" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Description</label>
+                <textarea id="courseDescription" placeholder="Enter detailed course description" rows="4" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary); resize: vertical;"></textarea>
+            </div>
+            
+            <div class="form-row" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Price (₹)</label>
+                    <input type="number" id="coursePrice" placeholder="0" min="0" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                </div>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Categories (comma separated)</label>
+                    <input type="text" id="courseCategories" placeholder="Business, Marketing, etc." style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                </div>
+            </div>
+            
+            <div class="form-row" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Video URL</label>
+                    <input type="url" id="courseVideoUrl" placeholder="https://youtube.com/..." style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                </div>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Document URL</label>
+                    <input type="url" id="courseDocumentUrl" placeholder="https://drive.google.com/..." style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                </div>
+            </div>
+            
+            <div class="form-row" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Instructor Name</label>
+                    <input type="text" id="courseInstructor" placeholder="Instructor name" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                </div>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Duration</label>
+                    <input type="text" id="courseDuration" placeholder="e.g., 4 weeks" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Level</label>
+                <select id="courseLevel" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            
+            <button class="action-btn primary" onclick="createCourse()">
+                <i class="fas fa-plus"></i> Create Course
+            </button>
+            
+            <div style="margin-top: 30px;">
+                <h4 style="margin-bottom: 15px;">Existing Courses</h4>
+                <div id="coursesList" class="courses-list">
+                    <!-- Courses will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settings" class="admin-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-cog"></i> Session Settings</h3>
+            </div>
+            
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Session Title</label>
+                <input type="text" id="sessionTitle" placeholder="Sunday Live Session" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); margin-bottom: 15px;">
+            </div>
+            
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Google Meet Link</label>
+                <input type="url" id="googleMeetLink" placeholder="https://meet.google.com/xxx-xxxx-xxx" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); margin-bottom: 15px;">
+            </div>
+            
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 10px; font-weight: 600;">Next Session Date</label>
+                <input type="datetime-local" id="nextSessionDate" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius-md); margin-bottom: 15px;">
+            </div>
+            
+            <button class="action-btn primary" onclick="saveSettings()">
+                <i class="fas fa-save"></i> Save Settings
+            </button>
+        </div>
+
+        <!-- Group Chat Panel -->
+        <div id="group-chat" class="admin-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-comments"></i> Group Chat</h3>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="adminGroupMessages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="adminGroupInput" placeholder="Type your message..." onkeypress="handleKeyPress(event, 'group')">
+                    <button class="send-btn" onclick="sendMessage('group')">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Private Chats Panel -->
+        <div id="private-chats" class="admin-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-envelope"></i> Private Chats with Students</h3>
+            </div>
+            <div style="display: grid; grid-template-columns: 250px 1fr; gap: 20px;">
+                <div>
+                    <h4 style="margin-bottom: 15px;">Students</h4>
+                    <div id="studentsList" class="students-list">
+                        <!-- Students will be loaded here -->
+                    </div>
+                </div>
+                <div class="chat-container" id="privateChatContainer" style="display: none;">
+                    <div class="chat-messages" id="adminPrivateMessages"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="adminPrivateInput" placeholder="Type your message..." onkeypress="handleKeyPress(event, 'private')">
+                        <button class="send-btn" onclick="sendMessage('private')">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="noChatSelected" style="display: flex; align-items: center; justify-content: center; height: 500px; color: var(--text-secondary);">
+                    <div style="text-align: center;">
+                        <i class="fas fa-comments" style="font-size: 48px; margin-bottom: 15px;"></i>
+                        <p>Select a student to view their private chat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

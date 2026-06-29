@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - MOCO ACADEMY</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard-page">
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="/logo.png" alt="MOCO ACADEMY" style="height: 40px; margin-right: 10px;" onerror="this.style.display='none';">
+                <i class="fas fa-graduation-cap" style="display: none;"></i>
+                <span>MOCO ACADEMY</span>
+            </div>
+            <div class="header-actions">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-content">
+        <div class="welcome-section">
+            <h2 id="welcomeMessage">Welcome back!</h2>
+            <p>Continue your learning journey</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card active" data-panel="live-session" onclick="showPanel('live-session')">
+                <div class="feature-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3>Live Session</h3>
+                <p>Sunday Classes</p>
+            </div>
+
+            <div class="feature-card" data-panel="group-chat" onclick="showPanel('group-chat')">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Group Chat</h3>
+                <p>Community</p>
+            </div>
+
+            <div class="feature-card" data-panel="private-chat" onclick="showPanel('private-chat')">
+                <div class="feature-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <h3>Private Chat</h3>
+                <p>Admin Support</p>
+            </div>
+        </div>
+
+        <!-- Live Session Panel -->
+        <div id="live-session" class="content-panel active">
+            <div class="panel-header">
+                <h3><i class="fas fa-video"></i> Sunday Live Sessions</h3>
+            </div>
+            <div id="sessionContent">
+                <div class="session-card">
+                    <h4 id="sessionTitle">Loading...</h4>
+                    <p class="session-date" id="sessionDate">Loading...</p>
+                    <button class="join-meet-btn" id="joinMeetBtn" onclick="joinMeet()">
+                        <i class="fas fa-external-link-alt"></i>
+                        JOIN G-MEET NOW
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Chat Panel -->
+        <div id="group-chat" class="content-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-users"></i> General Group Chat</h3>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="groupMessages"></div>
+                <div class="chat-input-area">
+                    <button class="voice-btn" id="voiceRecordBtn" onclick="toggleVoiceRecording('group')" title="Record Voice Message">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <input type="text" id="groupInput" placeholder="Type your message..." onkeypress="handleKeyPress(event, 'group')">
+                    <button class="send-btn" onclick="sendMessage('group')">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Private Chat Panel -->
+        <div id="private-chat" class="content-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-comment-dots"></i> Private Support (Admin)</h3>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="privateMessages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="privateInput" placeholder="Message admin..." onkeypress="handleKeyPress(event, 'private')">
+                    <button class="send-btn" onclick="sendMessage('private')">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
